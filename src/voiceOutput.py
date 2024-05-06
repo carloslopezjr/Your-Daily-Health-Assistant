@@ -56,6 +56,8 @@ def main():
 
         # give them the stats for the previous day and week
 
+        # end with exit message
+
 
 
     else:

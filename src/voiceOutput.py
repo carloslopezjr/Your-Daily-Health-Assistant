@@ -71,6 +71,4 @@ def main():
 
     # then have times_passed reset whenever 3 am hits
 
-
-# call the main function
-main()
+main() # call the main function

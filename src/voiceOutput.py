@@ -2,7 +2,6 @@ from functions import *
 import csv
 from datetime import datetime
 
-
 # FUNCTIONS THAT TAKE INPUT
 def get_time(time, array) : # get month day year hour minutes and append into array
 
@@ -31,7 +30,6 @@ def send_data (filename, arr): # tasked with sending data to dataset.csv
         writer = csv.writer(file)
         writer.writerow(arr)
 
-
 def main():
     # if time is in between 7am - 11am and it's the first time they passed through, then we want to greet them
     time = datetime.now()
@@ -42,7 +40,7 @@ def main():
         print("Good morning Sir, I hope you had good sleep, it is time to do your daily health check.")
         times_passed += 1
 
-        filename = '/Users/carlos/Desktop/Your-Daily-Health-Assistant/data/dataset.csv'
+        filename = 'C:\\Users\\bravo\\Desktop\\Your-Daily-Health-Assistant-2\\data\\dataset.csv' # change whenever you clone in a different location
 
         # hold values before pushed to the csv
         arr = [0, 0, 0, 0, 0, 0, 0, 0]
@@ -51,6 +49,13 @@ def main():
         levels(arr) # ask them to check their moring gluclose level
         focus_rating(arr) # ask how they feel from 1 - 10
         food(arr) # ask for their food
+
+        # what did you eat anything for breakfast?
+            # what did you eat?
+            # at what time
+            # what's your current blood sugar level
+
+        # I see that it's lunch/dinner time, did you plan on eating again?
 
         send_data(filename, arr)
 
@@ -64,17 +69,8 @@ def main():
         print("How's it going sir, did you want to do a quick health check?")
         times_passed += 1
 
-        # how do you currently feel fomr 1 - 10
-        # what did you eat anything for breakfast?
-            # what did you eat?
-            # at what time
-            # what's your current blood sugar level
-        
-        # did you eat anything else?
-            # repeat questions
-        
-        # I see that it's lunch/dinner time, did you plan on eating again?
-
-        # alright that's all I needed, talk soon
-
     # then have times_passed reset whenever 3 am hits
+
+
+# call the main function
+main()

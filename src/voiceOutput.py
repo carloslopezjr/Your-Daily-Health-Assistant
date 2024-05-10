@@ -1,6 +1,11 @@
 from functions import *
 import csv
 from datetime import datetime
+from gtts import gTTS
+language = 'en'
+
+
+import os
 
 # FUNCTIONS THAT TAKE INPUT
 def get_time(time, array) : # get month day year hour minutes and append into array
@@ -33,11 +38,16 @@ def send_data (filename, arr): # tasked with sending data to dataset.csv
 def main():
     # if time is in between 7am - 11am and it's the first time they passed through, then we want to greet them
     time = datetime.now()
-
     times_passed = 0 # this is the amount of times the sensor has registered
 
     if times_passed == 0:
-        print("Good morning Sir, I hope you had good sleep, it is time to do your daily health check.")
+
+        morning_text = "Good morning Sir, I hope you had good sleep, it is time to do your daily health check."
+
+        myobj = gTTS(text=morning_text, lang=language, slow=False)
+        myobj.save("good_morning.mp3")
+        os.system("start good_morning.mp3")
+        
         times_passed += 1
 
         filename = 'C:\\Users\\bravo\\Desktop\\Your-Daily-Health-Assistant-2\\data\\dataset.csv' # change whenever you clone in a different location

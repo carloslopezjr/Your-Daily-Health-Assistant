@@ -31,7 +31,7 @@ def food(array): # get food input from user
 # FUNCTIONS THAT OUTPUT
 def send_data (filename, arr): # tasked with sending data to dataset.csv
 
-    with open(filename, 'w', newline='') as file:
+    with open(filename, 'a', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(arr)
 
@@ -51,7 +51,7 @@ def main():
         os.system("afplay /Users/carlos/Desktop/Your-Daily-Health-Assistant-1/data/voice_outputs/morning_message-v1.mp3")
         
         # windows version
-        os.system("start morning_message-v1.mp3")
+        # os.system("start morning_message-v1.mp3")
         times_passed += 1
 
         filename = '/Users/carlos/Desktop/Your-Daily-Health-Assistant-1/data/dataset.csv' # change whenever you clone in a different location

@@ -2,10 +2,10 @@ from functions import *
 import csv
 from datetime import datetime
 from gtts import gTTS
+
 language = 'en'
-
-
 import os
+import sys
 
 # FUNCTIONS THAT TAKE INPUT
 def get_time(time, array) : # get month day year hour minutes and append into array
@@ -28,6 +28,25 @@ def food(array): # get food input from user
     food = input("Input the food you ate: ")
     array[7] = food
 
+def voice_message(message, operation_system):
+
+    if operation_system == 'mac':
+
+        myobj = gTTS(text=message, lang='en', slow=False)
+        myobj.save("/Users/carlos/Desktop/Your-Daily-Health-Assistant-1/data/voice_outputs/message.mp3")
+
+        # mac version
+        os.system("afplay /Users/carlos/Desktop/Your-Daily-Health-Assistant-1/data/voice_outputs/message.mp3")
+    elif operation_system == 'windows':
+
+        print('insert windows process')
+        # windows version
+        # os.system("start morning_message-v1.mp3")
+    else:
+        print("error, terminating program")
+        sys.exit(1)
+        
+
 # FUNCTIONS THAT OUTPUT
 def send_data (filename, arr): # tasked with sending data to dataset.csv
 
@@ -43,15 +62,8 @@ def main():
     if times_passed == 0:
 
         morning_text = "Insert Morning Message-v2"
-
-        myobj = gTTS(text=morning_text, lang=language, slow=False)
-        myobj.save("/Users/carlos/Desktop/Your-Daily-Health-Assistant-1/data/voice_outputs/morning_message-v1.mp3")
+        voice_message(morning_text, 'mac')
         
-        # mac version
-        os.system("afplay /Users/carlos/Desktop/Your-Daily-Health-Assistant-1/data/voice_outputs/morning_message-v1.mp3")
-        
-        # windows version
-        # os.system("start morning_message-v1.mp3")
         times_passed += 1
 
         filename = '/Users/carlos/Desktop/Your-Daily-Health-Assistant-1/data/dataset.csv' # change whenever you clone in a different location
@@ -78,13 +90,14 @@ def main():
         # give them the stats for the previous day and week
 
         # end with exit message
-
-
+        completion_message = "Insert completion message"
+        voice_message(completion_message, 'mac')
 
     else:
-        print("How's it going sir, did you want to do a quick health check?")
+        check_in = "Insert check-in message"
+        voice_message(check_in, 'mac')
         times_passed += 1
 
     # then have times_passed reset whenever 3 am hits
 
-main() # call the main function
+main() # start the process

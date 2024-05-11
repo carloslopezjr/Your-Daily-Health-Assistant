@@ -42,15 +42,21 @@ def main():
 
     if times_passed == 0:
 
-        morning_text = "Good morning Sir, I hope you had good sleep, it is time to do your daily health check."
+        morning_text = "Insert Morning Message-v2"
 
         myobj = gTTS(text=morning_text, lang=language, slow=False)
-        myobj.save("good_morning.mp3")
-        os.system("start good_morning.mp3")
+        myobj.save("/Users/carlos/Desktop/Your-Daily-Health-Assistant-1/data/voice_outputs/morning_message-v1.mp3")
         
+        # mac version
+        os.system("afplay /Users/carlos/Desktop/Your-Daily-Health-Assistant-1/data/voice_outputs/morning_message-v1.mp3")
+        
+        # windows version
+        os.system("start morning_message-v1.mp3")
         times_passed += 1
 
-        filename = 'C:\\Users\\bravo\\Desktop\\Your-Daily-Health-Assistant-2\\data\\dataset.csv' # change whenever you clone in a different location
+        filename = '/Users/carlos/Desktop/Your-Daily-Health-Assistant-1/data/dataset.csv' # change whenever you clone in a different location
+        
+        # 'C:\\Users\\bravo\\Desktop\\Your-Daily-Health-Assistant-2\\data\\dataset.csv'
 
         # hold values before pushed to the csv
         arr = [0, 0, 0, 0, 0, 0, 0, 0]

@@ -46,7 +46,6 @@ def voice_message(message, operation_system):
         print("error, terminating program")
         sys.exit(1)
         
-
 # FUNCTIONS THAT OUTPUT
 def send_data (filename, arr): # tasked with sending data to dataset.csv
 
@@ -73,20 +72,27 @@ def main():
         # hold values before pushed to the csv
         arr = [0, 0, 0, 0, 0, 0, 0, 0]
 
-        get_time(time, arr)
+        get_time(time, arr) # function that checks the current time to adjust voice prompt
+            # example: voice-prompt: I see that it's lunch/dinner time, did you plan on eating again?
+
+        levels_message = "Insert levels message"
+        voice_message(levels_message, 'mac')
+
         levels(arr) # ask them to check their moring gluclose level
+
+        focus_message = "Insert focus message"
+        voice_message(focus_message, 'mac')
+
         focus_rating(arr) # ask how they feel from 1 - 10
+
+        food_message = "Insert food message"
+        voice_message(food_message, 'mac')
+
         food(arr) # ask for their food
-
-        # what did you eat anything for breakfast?
-            # what did you eat?
-            # at what time
-            # what's your current blood sugar level
-
-        # I see that it's lunch/dinner time, did you plan on eating again?
 
         send_data(filename, arr)
 
+        
         # give them the stats for the previous day and week
 
         # end with exit message

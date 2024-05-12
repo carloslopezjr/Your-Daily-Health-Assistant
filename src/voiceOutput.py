@@ -7,6 +7,7 @@ language = 'en'
 import os
 import sys
 
+
 # FUNCTIONS THAT TAKE INPUT
 def get_time(time, array) : # get month day year hour minutes and append into array
 
@@ -92,11 +93,11 @@ def main():
 
         send_data(filename, arr)
 
-        
+
         # give them the stats for the previous day and week
 
         # end with exit message
-        completion_message = "Insert completion message"
+        completion_message = "Data upload completed. I will check-in soon!"
         voice_message(completion_message, 'mac')
 
     else:

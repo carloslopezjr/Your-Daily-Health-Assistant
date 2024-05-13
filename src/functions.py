@@ -22,8 +22,13 @@ def levels(array):
     # Function that expects a voice input
     input_message = voice_recognition(levels_message)
 
+    # Test case in which program recognizes number as time: example "130" -> 1:30
+    if ':' in input_message:
+        print("test passed")
+        input_message = input_message.replace(':', '')
+
     # Test code 
-    # print(input_message)
+    print(input_message)
     
     # Send to array
     array[5] = int(input_message)
@@ -36,11 +41,31 @@ def focus_rating(array):
     # Function that expects a voice input
     input_message = voice_recognition(focus_message)
     
+    # Do error cases for voice recognition:
+    word_to_nums = {
+        'zero': 0,
+        'one' : 1,
+        'two': 2,
+        'three': 3,
+        'four': 4,
+        'five': 5,
+        'six': 6,
+        'seven': 7,
+        'eight': 8,
+        'nine':9,
+        'ten': 10
+    }
+
+    if input_message in word_to_nums:
+        # Send to array
+        array[6] = int(word_to_nums[input_message])
+    else:
+        print("Couldn't understand correctly")
+
     # Test code
     # print(input_message)
     
-    # Send to array
-    array[6] = int(input_message)
+    
 
 # Ask user for food ate & send to array
 def food(array): 
@@ -53,12 +78,11 @@ def food(array):
     # print(input_message)
 
     # Send to array
-    array[7] = food
+    array[7] = food_message
 
 # Looks for specified microphone, reads voice input
 def voice_recognition(question_message):
     
-    # obtain audio from the microphone
     r = sr.Recognizer()
     # r.energy_threshold = 300
 
@@ -74,25 +98,29 @@ def voice_recognition(question_message):
         if microphone_name == "External Microphone":
             m = sr.Microphone(device_index=i)
 
-    with m as source:
 
-        voice_message(question_message, 'mac')
-        audio = r.listen(source)
+    while True:
 
-    # Create while loop to keep going until it reads something
-    # recognize speech using Google
-    try:
-        message = "Google thinks you said " + r.recognize_google(audio)
-        voice_message(message, 'mac')
-        return r.recognize_google(audio)
-        
-    except sr.UnknownValueError:
+        with m as source:
 
-        message = "Google could not understand audio, can you repeat it again?"
-        voice_message(message, 'mac')
+            voice_message(question_message, 'mac')
+            audio = r.listen(source)
 
-    except sr.RequestError as e:
-        print("Google error; {0}".format(e))
+        # Create while loop to keep going until it reads something
+        # recognize speech using Google
+        try:
+            message = "Google thinks you said " + r.recognize_google(audio)
+            voice_message(message, 'mac')
+            return r.recognize_google(audio)
+            
+        except sr.UnknownValueError:
+
+            message = "Google could not understand audio, can you repeat it again?"
+            voice_message(message, 'mac')
+
+        except sr.RequestError as e:
+            print("Google error; {0}".format(e))
+            # return None
 
 
 # Functions for output
@@ -132,7 +160,7 @@ def main():
 
     if times_passed == 0:
 
-        morning_text = "Insert Morning Message-v2"
+        morning_text = "Insert Morning Message"
         voice_message(morning_text, 'mac')
         
         times_passed += 1
@@ -147,17 +175,17 @@ def main():
         get_time(time, arr) # function that checks the current time to adjust voice prompt
             # example: voice-prompt: I see that it's lunch/dinner time, did you plan on eating again?
 
-        levels_message = "Insert levels message"
+        levels_message = "Take this time to check your gluclose levels. I'll be back in about a minute."
         voice_message(levels_message, 'mac')
 
         levels(arr) # ask them to check their moring gluclose level
 
-        focus_message = "Insert focus message"
+        focus_message = "Now how focused do you feel from 1 to 10?"
         voice_message(focus_message, 'mac')
 
         focus_rating(arr) # ask how they feel from 1 - 10
 
-        food_message = "Insert food message"
+        food_message = "Lastly, what did you eat?"
         voice_message(food_message, 'mac')
 
         food(arr) # ask for their food

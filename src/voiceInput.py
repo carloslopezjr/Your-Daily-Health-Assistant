@@ -1,3 +1,6 @@
+from functions import *
+
+
 import speech_recognition as sr
 
 # obtain audio from the microphone
@@ -12,7 +15,6 @@ for index, name in enumerate(sr.Microphone.list_microphone_names()):
     print(f"{index}: {name}")
 '''
 
-
 m = None
 for i, microphone_name in enumerate(sr.Microphone.list_microphone_names()):
     if microphone_name == "External Microphone":
@@ -20,14 +22,22 @@ for i, microphone_name in enumerate(sr.Microphone.list_microphone_names()):
 
 
 with m as source:
-    print("Say something!")
+
+    voice_message(message, 'mac')
     audio = r.listen(source)
 
+
+# Create while loop to keep going until it reads something
 # recognize speech using Google
 try:
-    print("Google thinks you said " + r.recognize_google(audio))
+    message = "Google thinks you said " + r.recognize_google(audio)
+    voice_message(message, 'mac')
+    
 except sr.UnknownValueError:
-    print("Google could not understand audio")
+
+    message = "Google could not understand audio, can you repeat it again?"
+    voice_message(message, 'mac')
+
 except sr.RequestError as e:
     print("Google error; {0}".format(e))
 

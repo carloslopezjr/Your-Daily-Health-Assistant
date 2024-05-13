@@ -6,6 +6,8 @@ import sys
 import speech_recognition as sr
 language = 'en'
 
+oSystem = sys.platform
+
 # Get current time
 def get_time(time, array) : # get month day year hour minutes and append into array
 
@@ -101,25 +103,24 @@ def voice_recognition(question_message):
 
         with m as source:
 
-            voice_message(question_message, 'mac')
+            voice_message(question_message, oSystem)
             audio = r.listen(source)
 
         # Create while loop to keep going until it reads something
         # recognize speech using Google
         try:
             message = "Google thinks you said " + r.recognize_google(audio)
-            voice_message(message, 'mac')
+            voice_message(message, oSystem)
             return r.recognize_google(audio)
             
         except sr.UnknownValueError:
 
             message = "Google could not understand audio, can you repeat it again?"
-            voice_message(message, 'mac')
+            voice_message(message, oSystem)
 
         except sr.RequestError as e:
             print("Google error; {0}".format(e))
             # return None
-
 
 # Functions for output
 
@@ -134,14 +135,14 @@ def send_data (filename, arr):
 # Creates mp3 file for specified operation system
 def voice_message(message, operation_system):
 
-    if operation_system == 'mac':
+    if operation_system == 'darwin':
 
         myobj = gTTS(text=message, lang='en', slow=False)
         myobj.save("/Users/carlos/Desktop/Your-Daily-Health-Assistant-1/data/voice_outputs/message.mp3")
 
         # mac version
         os.system("afplay /Users/carlos/Desktop/Your-Daily-Health-Assistant-1/data/voice_outputs/message.mp3")
-    elif operation_system == 'windows':
+    elif operation_system == 'win32':
 
         print('insert windows process')
         # windows version
@@ -152,6 +153,7 @@ def voice_message(message, operation_system):
 
 # Start the program
 def main():
+
     # if time is in between 7am - 11am and it's the first time they passed through, then we want to greet them
     time = datetime.now()
     times_passed = 0 # this is the amount of times the sensor has registered
@@ -159,7 +161,7 @@ def main():
     if times_passed == 0:
 
         morning_text = "Insert Morning Message"
-        voice_message(morning_text, 'mac')
+        voice_message(morning_text, oSystem)
         
         times_passed += 1
 
@@ -186,11 +188,11 @@ def main():
 
         # end with exit message
         completion_message = "Data upload completed. I will check-in soon!"
-        voice_message(completion_message, 'mac')
+        voice_message(completion_message, oSystem)
 
     else:
         check_in = "Insert check-in message"
-        voice_message(check_in, 'mac')
+        voice_message(check_in, oSystem)
         times_passed += 1
 
     # then have times_passed reset whenever 3 am hits

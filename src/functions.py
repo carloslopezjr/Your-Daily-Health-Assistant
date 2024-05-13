@@ -18,7 +18,7 @@ def get_time(time, array) : # get month day year hour minutes and append into ar
 # Ask user for glucose levels & send to array
 def levels(array):
 
-    levels_message = "Insert levels message"
+    levels_message = "Take this time to check your gluclose levels. I'll be back in about a minute."
     # Function that expects a voice input
     input_message = voice_recognition(levels_message)
 
@@ -36,7 +36,7 @@ def levels(array):
 # Ask user for focus rating & send to array
 def focus_rating(array):
 
-    focus_message = "Insert focus message"
+    focus_message = "Now how focused do you feel from 1 to 10?"
 
     # Function that expects a voice input
     input_message = voice_recognition(focus_message)
@@ -65,11 +65,9 @@ def focus_rating(array):
     # Test code
     # print(input_message)
     
-    
-
 # Ask user for food ate & send to array
 def food(array): 
-    food_message = "Insert food message"
+    food_message = "Lastly, what did you eat?"
 
     # Function that expects a voice input
     input_message = voice_recognition(food_message)
@@ -175,18 +173,9 @@ def main():
         get_time(time, arr) # function that checks the current time to adjust voice prompt
             # example: voice-prompt: I see that it's lunch/dinner time, did you plan on eating again?
 
-        levels_message = "Take this time to check your gluclose levels. I'll be back in about a minute."
-        voice_message(levels_message, 'mac')
-
         levels(arr) # ask them to check their moring gluclose level
 
-        focus_message = "Now how focused do you feel from 1 to 10?"
-        voice_message(focus_message, 'mac')
-
         focus_rating(arr) # ask how they feel from 1 - 10
-
-        food_message = "Lastly, what did you eat?"
-        voice_message(food_message, 'mac')
 
         food(arr) # ask for their food
 

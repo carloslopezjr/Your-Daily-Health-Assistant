@@ -5,6 +5,7 @@ import os
 import sys
 import speech_recognition as sr
 language = 'en'
+import time
 
 oSystem = sys.platform
 
@@ -21,19 +22,51 @@ def get_time(time, array) : # get month day year hour minutes and append into ar
 def levels(array):
 
     levels_message = "Take this time to check your gluclose levels. I'll be back in about a minute."
+
+    voice_message(levels_message, oSystem)
+
+    # Waits program for a minute
+    # time.sleep(1)
+
     # Function that expects a voice input
-    input_message = voice_recognition(levels_message)
+    while True:
 
-    # Test case in which program recognizes number as time: example "130" -> 1:30
-    if ':' in input_message:
-        print("test passed")
-        input_message = input_message.replace(':', '')
+        # Ask if the user is ready
+        follow_message = "Are you ready to give your levels?"
+        # Store voice input to variable
+        input_message = voice_recognition(follow_message)
+        
+        # Play microphone indicator sound
 
-    # Test code 
-    print(input_message)
-    
-    # Send to array
-    array[5] = int(input_message)
+        # Check if input is equal to yes or no
+        if input_message.lower() == 'yes':
+
+            # Ask for current levels
+            levels_message = "What are your current levels?"
+            # Store levels in variable
+            input_message = voice_recognition(levels_message)
+
+            # Test case in which program recognizes number as time: example "130" -> 1:30
+            if ':' in input_message:
+                # print("test passed")
+                input_message = input_message.replace(':', '')
+
+                # Test code 
+                # print(input_message)
+                
+                # Send to array
+                array[5] = int(input_message)
+
+            # Return variable
+            return input_message
+        
+        elif input_message.lower() == 'no':
+            # Give user more time
+            voice_message("Okay I'll give you an additional 30 seconds.", oSystem)
+        
+        else:
+            # Loop back to repeat current question
+            voice_message("I Couldn't understand you.", oSystem)
 
 # Ask user for focus rating & send to array
 def focus_rating(array):
@@ -66,7 +99,7 @@ def focus_rating(array):
 
     # Test code
     # print(input_message)
-    
+
 # Ask user for food ate & send to array
 def food(array): 
     food_message = "Lastly, what did you eat?"
@@ -78,7 +111,7 @@ def food(array):
     # print(input_message)
 
     # Send to array
-    array[7] = food_message
+    array[7] = input_message
 
 # Looks for specified microphone, reads voice input
 def voice_recognition(question_message):
@@ -160,7 +193,7 @@ def main():
 
     if times_passed == 0:
 
-        morning_text = "Insert Morning Message"
+        morning_text = "Good morning"
         voice_message(morning_text, oSystem)
         
         times_passed += 1

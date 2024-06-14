@@ -171,10 +171,10 @@ def voice_message(message, operation_system):
     if operation_system == 'darwin':
 
         myobj = gTTS(text=message, lang='en', slow=False)
-        myobj.save("/Users/carlos/Desktop/Your-Daily-Health-Assistant-1/data/voice_outputs/message.mp3")
+        myobj.save("/Users/carlos/Desktop/Your-Daily-Health-Assistant/data/voice_outputs/message.mp3")
 
         # mac version
-        os.system("afplay /Users/carlos/Desktop/Your-Daily-Health-Assistant-1/data/voice_outputs/message.mp3")
+        os.system("afplay /Users/carlos/Desktop/Your-Daily-Health-Assistant/data/voice_outputs/message.mp3")
     elif operation_system == 'win32':
 
         print('insert windows process')
@@ -188,6 +188,7 @@ def voice_message(message, operation_system):
 def main():
 
     # if time is in between 7am - 11am and it's the first time they passed through, then we want to greet them
+    
     time = datetime.now()
     times_passed = 0 # this is the amount of times the sensor has registered
 
@@ -198,15 +199,14 @@ def main():
         
         times_passed += 1
 
-        filename = '/Users/carlos/Desktop/Your-Daily-Health-Assistant-1/data/dataset.csv' # change whenever you clone in a different location
-        
-        # 'C:\\Users\\bravo\\Desktop\\Your-Daily-Health-Assistant-2\\data\\dataset.csv'
+        filename = '/Users/carlos/Desktop/Your-Daily-Health-Assistant/data/dataset.csv' # change whenever you clone in a different location
 
         # hold values before pushed to the csv
         arr = [0, 0, 0, 0, 0, 0, 0, 0]
 
         get_time(time, arr) # function that checks the current time to adjust voice prompt
-            # example: voice-prompt: I see that it's lunch/dinner time, did you plan on eating again?
+
+        # example: voice-prompt: I see that it's lunch/dinner time, did you plan on eating again?
 
         levels(arr) # ask them to check their moring gluclose level
 

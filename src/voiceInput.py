@@ -1,6 +1,4 @@
 from functions import *
-
-
 import speech_recognition as sr
 
 # obtain audio from the microphone

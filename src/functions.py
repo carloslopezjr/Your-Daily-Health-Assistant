@@ -114,45 +114,30 @@ def food(array):
     array[7] = input_message
 
 # Looks for specified microphone, reads voice input
-def voice_recognition(question_message):
+def voice_recognition(question_message): 
     
+    # Code that works with right microphone, use microphone_names() to find what device_index to use
     r = sr.Recognizer()
-    # r.energy_threshold = 300
-
-    # List available microphones
+    r.energy_threshold = 500
+    r.pause_threshold = 0.5
     
-   # print("Available microphones:")
-    # for index, name in enumerate(sr.Microphone.list_microphone_names()):
-    #     print(f"{index}: {name}") 
-    
-    
-    m = None
-    for i, microphone_name in enumerate(sr.Microphone.list_microphone_names()):
-        if microphone_name == "default":
-            m = sr.Microphone(device_index=i)
-    
-    
-    
-
-
+    # Create while loop to keep going until it reads something
     while True:
 
-        with m as source:
+        with sr.Microphone(device_index = 1) as source:
 
             voice_message(question_message, oSystem)
             audio = r.listen(source)
 
-        # Create while loop to keep going until it reads something
-        # recognize speech using Google
         try:
-            message = "Google thinks you said " + r.recognize_google(audio)
+            message = "We think you said: " + r.recognize_google(audio)
             voice_message(message, oSystem)
             return r.recognize_google(audio)
             
         except sr.UnknownValueError:
 
-            message = "Google could not understand audio, can you repeat it again?"
-            voice_message(message, oSystem)
+            message = "We could not understand audio, can you repeat it again?"
+            #voice_message(message, oSystem)
 
         except sr.RequestError as e:
             print("Google error; {0}".format(e))
@@ -241,3 +226,6 @@ def main():
         times_passed += 1
 
     # then have times_passed reset whenever 3 am hits
+
+
+main()

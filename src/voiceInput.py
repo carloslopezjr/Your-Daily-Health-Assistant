@@ -7,12 +7,12 @@ r = sr.Recognizer()
 
 
 # List available microphones
-'''
+
 print("Available microphones:")
 for index, name in enumerate(sr.Microphone.list_microphone_names()):
     print(f"{index}: {name}")
-'''
 
+'''
 m = None
 for i, microphone_name in enumerate(sr.Microphone.list_microphone_names()):
     if microphone_name == "External Microphone":
@@ -39,3 +39,4 @@ except sr.UnknownValueError:
 except sr.RequestError as e:
     print("Google error; {0}".format(e))
 
+'''

@@ -1,3 +1,35 @@
 from functions import *
+from contextlib import redirect_stderr
+import io
 
-main() # start the process
+
+
+# f = io.StringIO()
+# with redirect_stderr(f):
+#     r = sr.Recognizer()
+#     mic_list = sr.Microphone.list_microphone_names()
+
+
+r = sr.Recognizer()
+r.energy_threshold = 500
+r.pause_threshold = 0.5
+with sr.Microphone(device_index = 1) as source:
+    print("Say something!")
+    audio = r.listen(source)
+    
+
+
+try:
+    print("We think you said: " + r.recognize_google(audio))
+except sr.UnknownValueError:
+    print("We didn't recognize the audio")
+except sr.RequestError:
+    print("Could not request results from Google")
+
+
+
+
+# # main() # start the process
+# print("Available microphones:")
+# for index, name in enumerate(mic_list):
+#     print(f"{index}: {name}") 

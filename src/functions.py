@@ -120,16 +120,19 @@ def voice_recognition(question_message):
     # r.energy_threshold = 300
 
     # List available microphones
-    '''
-    print("Available microphones:")
-    for index, name in enumerate(sr.Microphone.list_microphone_names()):
-        print(f"{index}: {name}")
-    '''
-
+    
+   # print("Available microphones:")
+    # for index, name in enumerate(sr.Microphone.list_microphone_names()):
+    #     print(f"{index}: {name}") 
+    
+    
     m = None
     for i, microphone_name in enumerate(sr.Microphone.list_microphone_names()):
-        if microphone_name == "External Microphone":
+        if microphone_name == "default":
             m = sr.Microphone(device_index=i)
+    
+    
+    
 
 
     while True:
@@ -154,6 +157,8 @@ def voice_recognition(question_message):
         except sr.RequestError as e:
             print("Google error; {0}".format(e))
             # return None
+        
+        
 
 # Functions for output
 
@@ -168,18 +173,25 @@ def send_data (filename, arr):
 # Creates mp3 file for specified operation system
 def voice_message(message, operation_system):
 
-    if operation_system == 'darwin':
-
+    if operation_system == 'darwin': # Mac
+        # Save the mp3 file
         myobj = gTTS(text=message, lang='en', slow=False)
         myobj.save("/Users/carlos/Desktop/Your-Daily-Health-Assistant/data/voice_outputs/message.mp3")
 
-        # mac version
+        # Play the file after saving
         os.system("afplay /Users/carlos/Desktop/Your-Daily-Health-Assistant/data/voice_outputs/message.mp3")
-    elif operation_system == 'win32':
+    elif operation_system == 'win32': # Windows
 
         print('insert windows process')
         # windows version
         # os.system("start morning_message-v1.mp3")
+    elif operation_system == 'linux':
+
+        myobj = gTTS(text=message, lang='en', slow=False)
+        myobj.save("/home/kali/Your-Daily-Health-Assistant/data/voice_outputs/message.mp3")
+
+        os.system(f"mpg123 /home/kali/Your-Daily-Health-Assistant/data/voice_outputs/message.mp3")
+
     else:
         print("error, terminating program")
         sys.exit(1)
@@ -199,7 +211,7 @@ def main():
         
         times_passed += 1
 
-        filename = '/Users/carlos/Desktop/Your-Daily-Health-Assistant/data/dataset.csv' # change whenever you clone in a different location
+        filename = '/home/kali/Your-Daily-Health-Assistant/data/dataset.csv' # change whenever you clone in a different location
 
         # hold values before pushed to the csv
         arr = [0, 0, 0, 0, 0, 0, 0, 0]

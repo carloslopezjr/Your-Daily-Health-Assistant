@@ -6,6 +6,8 @@ import sys
 import speech_recognition as sr
 language = 'en'
 import time
+from pydub import AudioSegment
+from pydub.playback import play
 
 oSystem = sys.platform
 
@@ -174,6 +176,11 @@ def voice_message(message, operation_system):
 
         myobj = gTTS(text=message, lang='en', slow=False)
         myobj.save("/home/kali/Your-Daily-Health-Assistant/data/voice_outputs/message.mp3")
+
+        # Load the audio file
+        sound = AudioSegment.from_file("/home/kali/Your-Daily-Health-Assistant/data/voice_outputs/message.mp3")
+        increased_sound = sound + 25
+        increased_sound.export("/home/kali/Your-Daily-Health-Assistant/data/voice_outputs/message.mp3", format="mp3")
 
         os.system(f"mpg123 /home/kali/Your-Daily-Health-Assistant/data/voice_outputs/message.mp3")
 

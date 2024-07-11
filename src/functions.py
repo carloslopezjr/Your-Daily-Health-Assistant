@@ -8,6 +8,7 @@ language = 'en'
 import time
 from pydub import AudioSegment
 from pydub.playback import play
+import time
 
 oSystem = sys.platform
 
@@ -116,7 +117,7 @@ def food(array):
     array[7] = input_message
 
 # Looks for specified microphone, reads voice input
-def voice_recognition(question_message): 
+def voice_recognition(question_message, timeout=2): 
     
     # Code that works with right microphone, use microphone_names() to find what device_index to use
     r = sr.Recognizer()
@@ -126,24 +127,30 @@ def voice_recognition(question_message):
     # Create while loop to keep going until it reads something
     while True:
 
-        with sr.Microphone(device_index = 1) as source:
+        start_time = time.time()
+        while (time.time() - start_time) < timeout:
+            with sr.Microphone(device_index=1) as source:
+                
+                voice_message(question_message, oSystem)
 
-            voice_message(question_message, oSystem)
-            audio = r.listen(source)
+                audio = r.listen(source, timeout=timeout, phrase_time_limit=timeout)
 
-        try:
-            message = "We think you said: " + r.recognize_google(audio)
-            voice_message(message, oSystem)
-            return r.recognize_google(audio)
-            
-        except sr.UnknownValueError:
+            try:
+                message = "We think you said: " + r.recognize_google(audio)
+                voice_message(message, oSystem)
+                return r.recognize_google(audio)
+                
+            except sr.UnknownValueError:
+                message = "We could not understand audio, can you repeat it again?"
+                # Optionally uncomment line below to speak the message
+                # voice_message(message, oSystem)
 
-            message = "We could not understand audio, can you repeat it again?"
-            #voice_message(message, oSystem)
+            except sr.RequestError as e:
+                print("Google error: {0}".format(e))
+                # return None
 
-        except sr.RequestError as e:
-            print("Google error; {0}".format(e))
-            # return None
+        message = "No input detected within {0} seconds. Trying again...".format(timeout)
+        voice_message(message, oSystem)  # Optionally speak the timeout message
         
         
 
@@ -179,7 +186,9 @@ def voice_message(message, operation_system):
 
         # Load the audio file
         sound = AudioSegment.from_file("/home/kali/Your-Daily-Health-Assistant/data/voice_outputs/message.mp3")
-        increased_sound = sound + 25
+
+        # Increase the sound of the file
+        increased_sound = sound
         increased_sound.export("/home/kali/Your-Daily-Health-Assistant/data/voice_outputs/message.mp3", format="mp3")
 
         os.system(f"mpg123 /home/kali/Your-Daily-Health-Assistant/data/voice_outputs/message.mp3")
@@ -219,7 +228,6 @@ def main():
         food(arr) # ask for their food
 
         send_data(filename, arr)
-
 
         # give them the stats for the previous day and week
 

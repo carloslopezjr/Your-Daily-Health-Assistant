@@ -4,6 +4,11 @@
 
 #define PIR_PIN 26  // WiringPi pin 0 is BCM_GPIO 17
 
+
+void delay_minutes(int minutes) {
+    delay(minutes * 60 * 1000);
+}
+
 int main(void) {
     // Setup wiringPi and the PIR_PIN as input
     if (wiringPiSetup() == -1) {
@@ -17,6 +22,7 @@ int main(void) {
 
     const char *python_file = "functions.py";
 
+    // This needs to keep going after program finished
     while (1) {
         if (digitalRead(PIR_PIN) == HIGH) {
             printf("Motion Detected! Starting Program\n");
@@ -30,8 +36,9 @@ int main(void) {
                 return 1;
             }
 
-            break;
-            // delay(10000);  // Wait for 10 second
+            // break;
+            delay_minutes(10);
+
         } else {
             printf("No Motion\n");
             delay(1000);  // Wait for 1 second
@@ -39,4 +46,5 @@ int main(void) {
     }
 
     return 0;
+    
 }
